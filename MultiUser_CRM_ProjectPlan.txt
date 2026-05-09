@@ -1,0 +1,319 @@
+READ THIS:
+
+This is a suggestive plan and need changes in it , 
+Before starting the coding part we need to make sure Everything theoritically because its very difficult to do changes later in such large scale projects.
+All you need is to do changes in this file as per you requirements and then send me the file back containing the complete project plan.
+after the plan is done i will calculate the estimate the aproximate costs that will be needed for running it and after that we can start building it
+As per decided before , its a best thing to make a mobile application separately for it but first we need to complete this web application and i will design the backend in a way that later it can easily serve any mobile application also.
+following are the features that i think best to include in it and the rest of the features will be same as was in the previous one like the maps , calender etc( i am also adding the previous features collection at the end of the file)
+
+================================================================
+   AgriCRM — FULL PROJECT PLAN
+
+----------------------------------------------------------------
+
+
+----------------------------------------------------------------
+USER ROLES
+----------------------------------------------------------------
+Super Admin  → Everything — all orgs, all users, billing, system health
+Org Admin    → Their org only — manage team, settings, data
+Sales Rep    → Their own customers 
+
+----------------------------------------------------------------
+FEATURE 1: MULTI-TENANT ORGANIZATION SYSTEM
+----------------------------------------------------------------
+Overview:
+  Each company using this app = 1 Organization.
+
+Detail:
+  - Super Admin creates Org: "Müller GmbH"
+  - Assigns an Org Admin to it
+  - Org Admin logs in → sees only their org's data
+  - Super Admin can switch between orgs from a dashboard
+  - All data (customers, routes, history) is scoped to it
+
+----------------------------------------------------------------
+FEATURE 2: USER MANAGEMENT (PER ORG)
+----------------------------------------------------------------
+Overview:
+  Org Admin manages their team — invite, assign roles, deactivate.
+
+Detail:
+  - Org Admin goes to Settings → Users
+  - Clicks "Invite User" → enters email
+  - User gets email link → sets password → lands in that org
+  - Org Admin sets role: Rep / Viewer
+  - Can deactivate users without deleting their historical data
+
+----------------------------------------------------------------
+FEATURE 3: CUSTOMER OWNERSHIP + SHARED POOL
+----------------------------------------------------------------
+Overview:
+  Customers can be assigned to a specific rep or left in a shared
+  pool for any rep to claim.
+
+Detail:
+  - Rep A imports 50 customers → auto-assigned to him
+  - Org Admin creates 20 unassigned customers → shared pool
+  - Rep B claims 5 from pool → now assigned to him
+  - Org Admin can reassign customers between reps at any time
+
+----------------------------------------------------------------
+FEATURE 4: VISIT PLANNING (MULTI-USER AWARE)
+----------------------------------------------------------------
+Overview:
+  Each rep plans their own daily route.
+  Org Admin sees a full team calendar.
+
+Detail:
+  - Each rep plans their own daily visits
+  - Org Admin sees team calendar — who visits which customer, which day
+  - If two reps schedule same customer → system warns:
+    "Already scheduled by Rep A"
+  - Org Admin can lock a customer to prevent scheduling conflicts
+
+----------------------------------------------------------------
+FEATURE 5: MAP VIEW (TEAM VIEW)
+----------------------------------------------------------------
+Overview:
+  Color-coded customer map — per rep or org-wide.
+
+Dry Run:
+  - Rep sees his own customers on map (green/yellow/red dots)
+  - Org Admin sees ALL reps' customers, color-coded per rep
+  - Click on customer dot → see assigned rep, last visit, next due
+  - Filter by: rep, status, region, date range
+
+----------------------------------------------------------------
+FEATURE 6: AUTOMATIC REVISIT SYSTEM
+----------------------------------------------------------------
+Overview:
+  After a visit, system auto-calculates next due date (8 weeks).
+  Dashboard shows due visits for each rep.
+
+Detail:
+  - Customer visited by Rep A on March 1
+  - System marks: due again April 26 (8 weeks later)
+  - Rep A dashboard shows: "3 visits due today"
+  - Org Admin sees team-wide overdue visits in one panel
+  - Overdue customers turn red automatically
+
+----------------------------------------------------------------
+FEATURE 7: DAILY ROUTE PLANNER (PER REP)
+----------------------------------------------------------------
+Overview:
+  Start/End location is configurable per user (not hardcoded).
+  System suggests optimal route based on due visits.
+
+Dry Run:
+  - Rep opens "Plan Today"
+  - System suggests customers due today near his start location
+  - Rep accepts or removes customers from the route
+  - Route calculated → shown on map with optimal order
+  - One click → Google Maps opens with all waypoints loaded
+  - PDF export of the day's route available
+
+----------------------------------------------------------------
+FEATURE 8: SUPER ADMIN DASHBOARD
+----------------------------------------------------------------
+Overview:
+  Global control panel — all orgs, users, system health.
+
+Dry Run:
+  - Super Admin logs in → sees all organizations listed
+  - Per org stats: active users, total customers, visits this week
+  - Can impersonate any Org Admin (for support/debugging)
+  - System health panel: DB size, backup status, error logs
+  - Billing overview per org (if monetized later)
+
+----------------------------------------------------------------
+FEATURE 9: MOBILE MODE (PWA)
+----------------------------------------------------------------
+Overview:
+  React frontend built as a Progressive Web App.
+  Fully usable on phone — large buttons.
+
+Dry Run:
+  - Rep opens site on phone → mobile layout loads automatically
+  - Large tap buttons: Start Visit / Write Note / Open Maps
+  - One tap → starts visit timer + opens GPS navigation
+  - After visit → quick note entry, auto-saves with timestamp
+  - Can be "installed" on home screen like a native app
+
+----------------------------------------------------------------
+FEATURE 10: NOTIFICATIONS + REMINDERS
+----------------------------------------------------------------
+Overview:
+  Automated daily reminders for reps and weekly summaries for admins.
+
+Dry Run:
+  - Daily 8am → each rep gets email/in-app notification:
+    "You have 4 visits due today"
+  - If customer overdue 2+ weeks → red badge on customer card
+  - Org Admin gets weekly summary: performance + neglected customers
+  - Super Admin can configure notification rules per org
+
+----------------------------------------------------------------
+FEATURE 11: CSV IMPORT / EXPORT (MULTI-LEVEL)
+----------------------------------------------------------------
+Overview:
+  Import/export at both rep level and org level.
+
+Dry Run:
+  - Rep imports his own customer list via CSV
+  - Org Admin does bulk import for whole team, assigns reps during import
+  - Rep exports his own customer list
+  - Org Admin exports entire org's data in one CSV
+
+----------------------------------------------------------------
+FEATURE 12: ACTIVITY LOG / AUDIT TRAIL
+----------------------------------------------------------------
+Overview:
+  Every action is logged — who did what, when.
+
+Dry Run:
+  - Every action recorded: "Rep B deleted customer XYZ at 14:32"
+  - Org Admin can review full activity log for their team
+  - Super Admin has access to all org logs
+  - Useful for accountability and debugging
+
+
+----------------------------------------------------------------
+BILLING / MONETIZATION MODEL
+----------------------------------------------------------------
+Billing is charged per Organization (Org Admin pays).
+Pricing is based on number of customers stored, billed monthly or yearly.
+
+Suggested Tier Structure:
+  Starter  → up to 100 customers  → €9/month  or €89/year
+  Growth   → up to 500 customers  → €25/month or €239/year
+  Pro      → unlimited customers  → €55/month or €529/year
+
+Rules:
+  - Yearly plan gets ~20% discount vs monthly
+  - If customer count exceeds current tier → auto prompt to upgrade
+  - Super Admin manages all billing, can manually override tiers
+  - On payment failure → read-only mode (no new customers, data safe)
+  - Free trial: 3 days, up to 20 customers, no card required
+
+
+==========================
+previous version features
+==========================
+
+What my program can do and should be able to do again:
+Customer Management 📋
+You can save companies with:
+Company Name
+Contact Person
+Postal Code
+City
+Street Address
+Notes
+Date of Visit
+Next Appointment
+Create Customer
+Edit Customer
+Delete Customer
+Search for Customer
+Sort Customers
+Visit Planning 📅
+Enter visit dates
+Automatically calculate next appointment (approx. +2 months)
+See which customers are scheduled and when
+Route Planner 🚗
+You can click on days and see:
+Which customers are scheduled for that day
+Route Start → Customers → End
+Open route in Google Maps
+Save route as PDF
+History per Customer 📝
+You can save notes for each customer:
+For example:
+
+"Is interested"
+"Needs work shoes"
+"Come back in March"
+These are saved chronologically.
+
+The list then displays:
+
+🔴 Item → History available
+To-Do System ✔
+Status per customer:
+
+A = Requests quote
+B = Receives quote
+E = Ordered verbally
+F = Order recorded
+The program displays:
+Open tasks
+Customers with ToDos
+Search 🔎
+You can search by:
+Company
+City
+Postal Code
+CSV Import / Export 📂
+Import customers (Excel → CSV)
+Export customers
+8. Delete duplicates 🧹
+Automatically remove duplicate customers:
+Company + Postal Code
+9. Automatic backup 💾
+On closing:
+Database is backed up
+Old backups are deleted
+SHOULD BE ABLE TO:
+Automatic revisit 🔁 (very useful)
+The most important thing is still missing:
+Last visited customer → automatically due again in 8 weeks
+List "Visits due today"
+Automatically plan daily route
+Start and destination always Marktoberdorf
+Then it calculates Program:
+
+Nearby customers
+Optimal order
+Show map with customers 🗺️
+All customers on map:
+Green dots = visited
+Red dots = open
+Yellow dots = long-neglected
+Then you click on it → customer opens.
+
+Mobile mode 📱 (extremely important)
+Large buttons:
+Save customer
+Write history
+Open maps
+This allows me to work on the go.
+Start visit with one click
+Maps opens automatically
+Address included
+History visible
+Customer status colors 🎨
+For example:
+Green → active
+Yellow → long-neglected
+Red → overdue
+Top 5 features
+1️⃣ Automatic revisit
+2️⃣ Automatic daily route
+3️⃣ Map view
+4️⃣ Reminders
+5️⃣ Mobile mode
+
+
+
+following are the things that client is continuously adding to the project
+
+- implement the rate limiting on the log in attempts
+- The monthly fee for the company is always supposed to be paid, based on the number of CRM users. We should then look at how to handle this if 5 new users join in April and 3 leave in June; that won't be easy.
+- A single user pays 7.90 per month (7.50 with annual payment) - a company with three users pays three times as much.
+- In principle correct, BUT only 3 trial days; at a company, there's the company admin who invites his users.
+- i am thinking that when a new user visits the site there will be an option to sign as a user or as a company and account will be created and user will be saved in the database and we wil give a free trial of using the crm for 10 days and after that he will need to buy the paid plan ,,after the company buys a plan then there will be option where the company manager can invite a user using the email and then the user can set his own password and can log in next time ...all the acitivties of the user will be visible to the manager ,,
+- i am thinking in a way that there are two types of users for the crm,,, the first one are added by the company manager and the second ones are just random users and dont need any company ,,both will have separate payment plan(I 'll discuss payment plans separately with you when started to develop it)..
+- It must work well and quickly, even if 100 users each have 1000 customers to visit.
+- While reviewing my main work this week, I noticed something in the new customer entry form that's important in both the old and new versions. Is it technically possible to automatically fill in the city when the postal code is entered?
